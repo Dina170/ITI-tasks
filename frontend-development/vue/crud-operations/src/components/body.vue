@@ -7,13 +7,16 @@
           <th>ID</th>
           <th>Name</th>
           <th>City</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="student in students" :key="student.id">
+        <tr v-for="(student, index) in students" :key="student.id">
           <td>{{ student.id }}</td>
           <td>{{ student.name }}</td>
           <td>{{ student.city }}</td>
+          <td><i class="fa-solid fa-trash mx-2" @click="removeStudent(index)"></i> | <i
+              class="fa-solid fa-pen-to-square mx-2"></i></td>
         </tr>
       </tbody>
       <tfoot>
@@ -49,9 +52,19 @@ export default {
         body: JSON.stringify(data)
       })
       this.students.push(data)
+    },
+    async removeStudent(index) {
+      await fetch(`http://localhost:5000/students/${this.students[index].id}`, {
+        method: "DELETE"
+      })
+      this.students.splice(index, 1);
     }
   }
 };
 </script>
 
-<style></style>
+<style>
+i:hover {
+  cursor: pointer;
+}
+</style>
