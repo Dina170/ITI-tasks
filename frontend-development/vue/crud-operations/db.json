@@ -2,7 +2,7 @@
   "students": [
     {
       "id": 1,
-      "name": "Dina",
+      "name": "Dina Ebrahim",
       "city": "Damietta"
     },
     {
@@ -19,11 +19,6 @@
       "id": 4,
       "name": "Ali",
       "city": "Alex"
-    },
-    {
-      "id": 5,
-      "name": "test",
-      "city": "Cairo"
     },
     {
       "id": 6,
