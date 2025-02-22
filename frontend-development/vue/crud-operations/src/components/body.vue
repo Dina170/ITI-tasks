@@ -26,18 +26,29 @@
 </template>
 
 <script>
-import students from "@/students.js";
 import addStudent from "./addStudent.vue";
 export default {
   components: {
     addStudent
   },
   data: () => ({
-    students: students,
+    students: [],
   }),
+  async created() {
+    let res = await fetch("http://localhost:5000/students");
+    this.students = await res.json();
+  },
   methods: {
-    addNewStudent(student) {
-      this.students.push({id: this.students[this.students.length - 1].id + 1, name: student.name, city: student.city})
+    async addNewStudent(student) {
+      let data = { id: this.students[this.students.length - 1].id + 1, name: student.name, city: student.city }
+      await fetch("http://localhost:5000/students", {
+        method: "POST",
+        headers: {
+          "Content-type": "application/json",
+        },
+        body: JSON.stringify(data)
+      })
+      this.students.push(data)
     }
   }
 };
