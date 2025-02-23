@@ -14,7 +14,7 @@
       <tbody>
         <tr v-for="(student, index) in students" :key="student.id">
           <td>{{ student.id }}</td>
-          <td>{{ student.name }}</td>
+          <td><router-link :to="'/student/' + student.id">{{ student.name }}</router-link></td>
           <td>{{ student.city }}</td>
           <td>
             <i class="fa-solid fa-trash mx-2" @click.ctrl="removeStudent(index)"></i> |
@@ -69,7 +69,7 @@ export default {
   },
   methods: {
     setSelectedStudent(student) {
-      this.selectedStudent = { ...student }; // Clone to avoid modifying directly
+      this.selectedStudent = { ...student };
     },
     async updateStudent() {
       const index = this.students.findIndex(s => s.id === this.selectedStudent.id);
