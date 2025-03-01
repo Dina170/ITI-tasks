@@ -8,6 +8,7 @@
     "db:server": "json-server db.json --watch --port 5000"
   },
   "dependencies": {
+    "pinia": "^3.0.1",
     "vue": "^3.2.13",
     "vue-router": "^4.5.0"
   },
