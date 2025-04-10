@@ -40,13 +40,34 @@ input[type="text"] {
   border: 1px solid #ccc;
 }
 
-button {
+form button {
   padding: 10px 15px;
   background-color: #28a745;
   color: white;
   border: none;
   cursor: pointer;
 }
-button:hover {
+form button:hover {
   background-color: #218838;
+}
+td button {
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 2px;
+}
+
+td button:first-child {
+  background-color: #357ddc;
+  margin-right: 10px;
+}
+td button:first-child:hover {
+  background-color: #234cc8;
+}
+td button:last-child {
+  background-color: #dc3545;
+}
+td button:last-child:hover {
+  background-color: #c82333;
 }
