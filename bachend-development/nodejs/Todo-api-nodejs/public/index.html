@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notes App</title>
+    <link rel="stylesheet" href="/public/style.css">
+</head>
+
+<body>
+    <div class="container">
+        <h1>Node.js Notes App</h1>
+
+        <!-- Form to add/edit notes -->
+        <div class="form-container">
+            <h2>Add New Note</h2>
+            <form id="noteForm">
+                <!-- TODO: Add form fields for note title and content -->
+                <input type="text" id="noteTitle" placeholder="Note Title" required>
+                <button type="submit">Save Note</button>
+            </form>
+        </div>
+
+        <!-- Container to display notes -->
+        <div class="notes-container">
+            <h2>My Notes</h2>
+            <div id="notesList">
+                <!-- Notes will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="/public/script.js"></script>
+</body>
+
+</html>
