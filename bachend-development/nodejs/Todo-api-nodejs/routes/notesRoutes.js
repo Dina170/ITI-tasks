@@ -1,6 +1,7 @@
 const { readData, writeData } = require("../utils/fileHelpers");
 const { send500, send404, sendJson } = require("../utils/responseHelpers");
 const handleBody = require("../utils/bodyParser");
+const validate = require("../utils/validate");
 
 function notesRouter(req, res, pathname, match) {
   if (pathname === "/api/notes" && req.method === "GET") {
@@ -22,10 +23,14 @@ function notesRouter(req, res, pathname, match) {
   if (pathname === "/api/notes" && req.method === "POST") {
     return handleBody(req, (parsedData) => {
       readData((err, data) => {
-        console.log("newNote", parsedData);
         if (err) return send500(res);
         const lastId = data[data.length - 1]?.id || 0;
-        const newNote = { id: lastId + 1, title: parsedData.title };
+        const newNote = {
+          id: lastId + 1,
+          title: parsedData.title,
+          content: parsedData.content,
+        };
+        if (!validate(newNote, res)) return;
 
         data.push(newNote);
         writeData(data, (err) => {
@@ -44,7 +49,8 @@ function notesRouter(req, res, pathname, match) {
         const note = data.find((n) => n.id == Number(match[1]));
         if (!note) return send404(res);
         if (parsedData.title) note.title = parsedData.title;
-        console.log("note", note);
+        if (parsedData.content) note.content = parsedData.content;
+        if (!validate(note, res)) return;
 
         writeData(data, (err) => {
           if (err) return send500(res);
