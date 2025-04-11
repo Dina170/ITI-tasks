@@ -4,27 +4,31 @@ const User = require("../models/User");
 
 router.get("/", async (req, res) => {
   try {
-    let posts;
-    if (req.query.limit && req.query.page) {
-      posts = await Post.find()
-        .skip((req.query.page - 1) * req.query.limit)
-        .limit(req.query.limit)
-        .populate("author", "username");
-      return res.status(200).json(posts);
-    }
+    let query = Post.find();
+
     if (req.query.title) {
-      posts = await Post.find()
-        .where("title", new RegExp(req.query.title, "i"))
-        .populate("author", "username");
-      return res.status(200).json(posts);
+      query = query.where("title", new RegExp(req.query.title, "i"));
     }
     if (req.query.sort) {
-      posts = await Post.find()
-        .sort(req.query.sort)
-        .populate("author", "username");
-    } else {
-      posts = await Post.find().populate("author", "username");
+      const sortFields = req.query.sort.split(",");
+      const sortObj = {};
+
+      sortFields.forEach((field) => {
+        if (field.startsWith("-")) {
+          sortObj[field.substring(1)] = -1;
+        } else {
+          sortObj[field] = 1;
+        }
+      });
+      query = query.sort(sortObj);
     }
+    if (req.query.limit && req.query.page) {
+      const limit = parseInt(req.query.limit);
+      const page = parseInt(req.query.page);
+      query = query.skip((page - 1) * limit).limit(limit);
+    }
+    query = query.populate("author", "username");
+    const posts = await query;
     res.status(200).json(posts);
   } catch (err) {
     res.status(500).json({ message: err.message });
