@@ -34,7 +34,8 @@ form {
   flex-direction: column;
 }
 
-input[type="text"] {
+input[type="text"],
+textarea {
   padding: 10px;
   margin-bottom: 10px;
   border: 1px solid #ccc;
