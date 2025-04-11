@@ -2,8 +2,8 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 const postSchema = new Schema(
   {
-    title: { type: String, required: true },
-    content: { type: String, required: true },
+    title: { type: String, required: true, minLength: 3, maxLength: 100 },
+    content: { type: String, required: true, minLength: 10, maxLength: 1000 },
     author: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
