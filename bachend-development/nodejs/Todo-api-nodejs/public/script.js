@@ -19,6 +19,8 @@ document.addEventListener("DOMContentLoaded", () => {
   // Get DOM elements
   const noteForm = document.getElementById("noteForm");
   const notesList = document.getElementById("notesList");
+  let isEditMode = false;
+  let editingNoteId = null;
 
   // Function to fetch all notes
   const fetchNotes = async () => {
@@ -78,15 +80,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (title && content) {
       try {
-        await apiRequest("http://localhost:3000/api/notes", "POST", {
-          title,
-          content,
-        });
+        if (isEditMode) {
+          await apiRequest(
+            `http://localhost:3000/api/notes/${editingNoteId}`,
+            "PUT",
+            { title, content }
+          );
+        } else {
+          await apiRequest("http://localhost:3000/api/notes", "POST", {
+            title,
+            content,
+          });
+        }
         titleInput.value = "";
         contentInput.value = "";
+        isEditMode = false;
+        editingNoteId = null;
         fetchNotes();
       } catch (error) {
-        alert(`Failed to create note: ${error.message}`);
+        alert(
+          `Failed to ${isEditMode ? "update" : "create"} note: ${error.message}`
+        );
       }
     }
   };
@@ -102,25 +116,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const contentInput = document.getElementById("noteContent");
         titleInput.value = note.title;
         contentInput.value = note.content;
-
-        noteForm.onsubmit = async (e) => {
-          e.preventDefault();
-          try {
-            await apiRequest(
-              `http://localhost:3000/api/notes/${noteId}`,
-              "PUT",
-              {
-                title: titleInput.value,
-                content: contentInput.value,
-              }
-            );
-            titleInput.value = "";
-            contentInput.value = "";
-            fetchNotes();
-          } catch (error) {
-            alert(`Failed to update note: ${error.message}`);
-          }
-        };
+        isEditMode = true;
+        editingNoteId = noteId;
       })
       .catch((error) => alert(`Failed to fetch note: ${error.message}`));
   }

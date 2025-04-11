@@ -9,18 +9,14 @@ function notesRouter(req, res, pathname, match) {
       if (err) return send500(res);
       sendJson(data, res);
     });
-  }
-
-  if (match && req.method === "GET") {
+  } else if (match && req.method === "GET") {
     return readData((err, data) => {
       if (err) return send500(res);
       const note = data.find((n) => n.id == Number(match[1]));
       if (!note) return send404(res);
       sendJson(note, res);
     });
-  }
-
-  if (pathname === "/api/notes" && req.method === "POST") {
+  } else if (pathname === "/api/notes" && req.method === "POST") {
     return handleBody(req, (parsedData) => {
       readData((err, data) => {
         if (err) return send500(res);
@@ -40,17 +36,18 @@ function notesRouter(req, res, pathname, match) {
         });
       });
     });
-  }
-
-  if (match && req.method === "PUT") {
+  } else if (match && req.method === "PUT") {
     return handleBody(req, (parsedData) => {
       readData((err, data) => {
         if (err) return send500(res);
         const note = data.find((n) => n.id == Number(match[1]));
         if (!note) return send404(res);
+
+        const updatedNote = { ...note, ...parsedData };
+        if (!validate(updatedNote, res)) return;
+
         if (parsedData.title) note.title = parsedData.title;
         if (parsedData.content) note.content = parsedData.content;
-        if (!validate(note, res)) return;
 
         writeData(data, (err) => {
           if (err) return send500(res);
@@ -59,9 +56,7 @@ function notesRouter(req, res, pathname, match) {
         });
       });
     });
-  }
-
-  if (match && req.method === "DELETE") {
+  } else if (match && req.method === "DELETE") {
     return readData((err, data) => {
       if (err) return send500(res);
       const index = data.findIndex((n) => n.id == Number(match[1]));
