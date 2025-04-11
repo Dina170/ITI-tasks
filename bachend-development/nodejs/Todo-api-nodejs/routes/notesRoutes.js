@@ -3,10 +3,24 @@ const { send500, send404, sendJson } = require("../utils/responseHelpers");
 const handleBody = require("../utils/bodyParser");
 const validate = require("../utils/validate");
 
-function notesRouter(req, res, pathname, match) {
+function notesRouter(req, res, pathname, match, query) {
   if (pathname === "/api/notes" && req.method === "GET") {
     return readData((err, data) => {
       if (err) return send500(res);
+      if (query?.search) {
+        const filteredNotes = data.filter((note) =>
+          note.title.toLowerCase().includes(query.search.toLowerCase())
+        );
+        return sendJson(filteredNotes, res);
+      } else if (query?.limit && query?.page) {
+        const limit = Number(query.limit);
+        const page = Number(query.page);
+        const startIndex = (page - 1) * limit;
+        const endIndex = startIndex + limit;
+        const paginatedNotes = data.slice(startIndex, endIndex);
+        return sendJson(paginatedNotes, res);
+      }
+
       sendJson(data, res);
     });
   } else if (match && req.method === "GET") {

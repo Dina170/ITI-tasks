@@ -8,6 +8,7 @@ const server = http.createServer((req, res) => {
   const parsedUrl = url.parse(req.url, true);
   const pathname = parsedUrl.pathname;
   const match = pathname.match(/^\/api\/notes\/(\d+)$/);
+  const query = parsedUrl.query;
 
   console.log(`${req.method} ${pathname}`);
 
@@ -38,7 +39,7 @@ const server = http.createServer((req, res) => {
   }
 
   if (pathname.startsWith("/api/notes")) {
-    return notesRouter(req, res, pathname, match);
+    return notesRouter(req, res, pathname, match, query);
   }
 
   res.writeHead(404, { "Content-Type": "text/plain" });
