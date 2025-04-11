@@ -16,6 +16,12 @@ router.get("/", async (req, res) => {
       posts = await Post.find()
         .where("title", new RegExp(req.query.title, "i"))
         .populate("author", "username");
+      return res.status(200).json(posts);
+    }
+    if (req.query.sort) {
+      posts = await Post.find()
+        .sort(req.query.sort)
+        .populate("author", "username");
     } else {
       posts = await Post.find().populate("author", "username");
     }
