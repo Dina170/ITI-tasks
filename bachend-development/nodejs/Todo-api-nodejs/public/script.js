@@ -1,3 +1,20 @@
+const apiRequest = async (url, method = "GET", body = null) => {
+  const options = {
+    method,
+    headers: { "Content-Type": "application/json" },
+  };
+  if (body) options.body = JSON.stringify(body);
+
+  const response = await fetch(url, options);
+
+  const responseText = await response.text();
+  if (!response.ok) {
+    throw new Error(responseText);
+  }
+
+  return responseText;
+};
+
 document.addEventListener("DOMContentLoaded", () => {
   // Get DOM elements
   const noteForm = document.getElementById("noteForm");
@@ -52,47 +69,69 @@ document.addEventListener("DOMContentLoaded", () => {
     notesList.appendChild(table);
   };
 
-  function editNote(event) {
-    const noteId =
-      event.target.parentElement.parentElement.firstChild.innerText;
-    const noteTitle = event.target.parentElement.previousSibling.innerText;
-    const titleInput = document.getElementById("noteTitle");
-    titleInput.value = noteTitle;
-    noteForm.onsubmit = async (e) => {
-      e.preventDefault();
-      await fetch(`http://localhost:3000/api/notes/${noteId}`, {
-        method: "PUT",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title: titleInput.value }),
-      });
-      titleInput.value = "";
-      fetchNotes();
-    };
-  }
-  function deleteNote(event) {
-    const noteId =
-      event.target.parentElement.parentElement.firstChild.innerText;
-    fetch(`http://localhost:3000/api/notes/${noteId}`, {
-      method: "DELETE",
-    }).then(() => fetchNotes());
-  }
-
-  // Function to handle form submission
   const handleSubmit = async (event) => {
     event.preventDefault();
     const titleInput = document.getElementById("noteTitle");
     const title = titleInput.value.trim();
+    const contentInput = document.getElementById("noteContent");
+    const content = contentInput.value.trim();
 
-    if (title) {
-      await fetch("http://localhost:3000/api/notes", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ title }),
-      });
-      titleInput.value = "";
-      fetchNotes();
+    if (title && content) {
+      try {
+        await apiRequest("http://localhost:3000/api/notes", "POST", {
+          title,
+          content,
+        });
+        titleInput.value = "";
+        contentInput.value = "";
+        fetchNotes();
+      } catch (error) {
+        alert(`Failed to create note: ${error.message}`);
+      }
     }
   };
+
+  function editNote(event) {
+    const noteId =
+      event.target.parentElement.parentElement.firstChild.innerText;
+
+    apiRequest(`http://localhost:3000/api/notes/${noteId}`)
+      .then((response) => {
+        const note = JSON.parse(response);
+        const titleInput = document.getElementById("noteTitle");
+        const contentInput = document.getElementById("noteContent");
+        titleInput.value = note.title;
+        contentInput.value = note.content;
+
+        noteForm.onsubmit = async (e) => {
+          e.preventDefault();
+          try {
+            await apiRequest(
+              `http://localhost:3000/api/notes/${noteId}`,
+              "PUT",
+              {
+                title: titleInput.value,
+                content: contentInput.value,
+              }
+            );
+            titleInput.value = "";
+            contentInput.value = "";
+            fetchNotes();
+          } catch (error) {
+            alert(`Failed to update note: ${error.message}`);
+          }
+        };
+      })
+      .catch((error) => alert(`Failed to fetch note: ${error.message}`));
+  }
+
+  function deleteNote(event) {
+    const noteId =
+      event.target.parentElement.parentElement.firstChild.innerText;
+    apiRequest(`http://localhost:3000/api/notes/${noteId}`, "DELETE")
+      .then(() => fetchNotes())
+      .catch((error) => alert(`Failed to delete note: ${error.message}`));
+  }
 
   // Add event listeners
   noteForm.addEventListener("submit", handleSubmit);
