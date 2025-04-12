@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const adminOnly = require("../middlewares/authRoles");
 const requireAuth = require("../middlewares/requireAuth");
 const Post = require("../models/Post");
 const User = require("../models/User");
@@ -37,7 +38,7 @@ router.get("/", requireAuth, async (req, res, next) => {
   }
 });
 
-router.post("/", async (req, res, next) => {
+router.post("/", requireAuth, async (req, res, next) => {
   const { title, content, author, tags } = req.body;
   try {
     const post = new Post({
@@ -54,7 +55,7 @@ router.post("/", async (req, res, next) => {
   }
 });
 
-router.get("/:id", async (req, res, next) => {
+router.get("/:id", requireAuth, adminOnly, async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id).populate(
       "author",
@@ -69,7 +70,7 @@ router.get("/:id", async (req, res, next) => {
   }
 });
 
-router.delete("/:id", async (req, res, next) => {
+router.delete("/:id", requireAuth, async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) {
@@ -82,7 +83,7 @@ router.delete("/:id", async (req, res, next) => {
   }
 });
 
-router.put("/:id", async (req, res, next) => {
+router.put("/:id", requireAuth, async (req, res, next) => {
   const { title, content, tags } = req.body;
   try {
     const post = await Post.findById(req.params.id);
@@ -101,7 +102,7 @@ router.put("/:id", async (req, res, next) => {
   }
 });
 
-router.post("/:id/comments", async (req, res, next) => {
+router.post("/:id/comments", requireAuth, async (req, res, next) => {
   const { text, author } = req.body;
   try {
     const post = await Post.findById(req.params.id);
@@ -121,7 +122,7 @@ router.post("/:id/comments", async (req, res, next) => {
   }
 });
 
-router.get("/user/:userId", async (req, res, next) => {
+router.get("/user/:userId", requireAuth, adminOnly, async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId);
     if (!user) {
