@@ -76,6 +76,9 @@ router.delete("/:id", requireAuth, async (req, res, next) => {
     if (!post) {
       throw new AppError("Post not found", 404);
     }
+    if (!post.author.equals(req.user._id) && req.user.role !== "admin")
+      throw new AppError("not authorized", 403);
+
     await post.deleteOne();
     res.status(200).json({ message: "Post deleted successfully" });
   } catch (err) {
@@ -90,6 +93,8 @@ router.put("/:id", requireAuth, async (req, res, next) => {
     if (!post) {
       throw new AppError("Post not found", 404);
     }
+    if (!post.author.equals(req.user._id) && req.user.role !== "admin")
+      throw new AppError("not authorized", 403);
 
     if (title) post.title = title;
     if (content) post.content = content;
