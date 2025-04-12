@@ -4,6 +4,7 @@ const mongoose = require("mongoose");
 const morgan = require("morgan");
 const postRoutes = require("./routes/postRoutes");
 const userRoutes = require("./routes/userRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 mongoose
   .connect("mongodb://localhost:27017/blog")
@@ -21,8 +22,9 @@ app.listen(3000, () => {
 
 app.use(express.json());
 app.use(morgan("dev"));
-app.use("/posts", postRoutes);
-app.use("/users", userRoutes);
+app.use("/api/posts", postRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/auth", authRoutes);
 
 app.use((err, req, res, next) => {
   res.status(err.statusCode || 500).send({
