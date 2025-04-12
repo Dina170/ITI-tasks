@@ -23,3 +23,11 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use("/posts", postRoutes);
 app.use("/users", userRoutes);
+
+app.use((err, req, res, next) => {
+  res.status(err.statusCode || 500).send({
+    status: err.statusCode || 500,
+    message: err.message || "something went wrong",
+    errors: [],
+  });
+});

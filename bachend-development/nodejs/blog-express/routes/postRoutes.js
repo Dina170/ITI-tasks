@@ -1,8 +1,9 @@
 const router = require("express").Router();
 const Post = require("../models/Post");
 const User = require("../models/User");
+const AppError = require("../utils/AppError");
 
-router.get("/", async (req, res) => {
+router.get("/", async (req, res, next) => {
   try {
     let query = Post.find();
 
@@ -31,11 +32,11 @@ router.get("/", async (req, res) => {
     const posts = await query;
     res.status(200).json(posts);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 });
 
-router.post("/", async (req, res) => {
+router.post("/", async (req, res, next) => {
   const { title, content, author, tags } = req.body;
   try {
     const post = new Post({
@@ -48,44 +49,44 @@ router.post("/", async (req, res) => {
     await post.save();
     res.status(201).json(post);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 });
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id).populate(
       "author",
       "username"
     );
     if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+      throw new AppError("Post not found", 404);
     }
     res.status(200).json(post);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 });
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", async (req, res, next) => {
   try {
     const post = await Post.findById(req.params.id);
     if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+      throw new AppError("Post not found", 404);
     }
     await post.deleteOne();
     res.status(200).json({ message: "Post deleted successfully" });
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 });
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", async (req, res, next) => {
   const { title, content, tags } = req.body;
   try {
     const post = await Post.findById(req.params.id);
     if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+      throw new AppError("Post not found", 404);
     }
 
     if (title) post.title = title;
@@ -95,16 +96,16 @@ router.put("/:id", async (req, res) => {
     await post.save();
     res.status(200).json(post);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 });
 
-router.post("/:id/comments", async (req, res) => {
+router.post("/:id/comments", async (req, res, next) => {
   const { text, author } = req.body;
   try {
     const post = await Post.findById(req.params.id);
     if (!post) {
-      return res.status(404).json({ message: "Post not found" });
+      throw new AppError("Post not found", 404);
     }
     const comment = {
       text,
@@ -115,15 +116,15 @@ router.post("/:id/comments", async (req, res) => {
     await post.save();
     res.status(201).json(comment);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 });
 
-router.get("/user/:userId", async (req, res) => {
+router.get("/user/:userId", async (req, res, next) => {
   try {
     const user = await User.findById(req.params.userId);
     if (!user) {
-      return res.status(404).json({ message: "User not found" });
+      throw new AppError("user not found", 404);
     }
     const posts = await Post.find({ author: req.params.userId }).populate(
       "author",
@@ -131,7 +132,7 @@ router.get("/user/:userId", async (req, res) => {
     );
     res.status(200).json(posts);
   } catch (err) {
-    res.status(500).json({ message: err.message });
+    next(err);
   }
 });
 
