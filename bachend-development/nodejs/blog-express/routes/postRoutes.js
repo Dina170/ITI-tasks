@@ -1,9 +1,10 @@
 const router = require("express").Router();
+const requireAuth = require("../middlewares/requireAuth");
 const Post = require("../models/Post");
 const User = require("../models/User");
 const AppError = require("../utils/AppError");
 
-router.get("/", async (req, res, next) => {
+router.get("/", requireAuth, async (req, res, next) => {
   try {
     let query = Post.find();
 

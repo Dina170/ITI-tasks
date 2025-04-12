@@ -6,7 +6,6 @@ async function register(req, res, next) {
 
   try {
     const user = await User.signup(username, email, password);
-    //const token = jwt.sign({email}, process.env.JWT_SECRET);
 
     res.status(201).json(email);
   } catch (error) {
