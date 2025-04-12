@@ -8,6 +8,7 @@ const userSchema = new Schema(
     username: { type: String, required: true },
     password: { type: String, required: true, select: false },
     email: { type: String, required: true, unique: true },
+    role: { type: String, enum: ["user", "admin"], default: "user" },
   },
   { timestamps: true }
 );
@@ -24,7 +25,7 @@ const userSchema = new Schema(
 //   }
 // });
 
-userSchema.statics.signup = async function (username, email, password) {
+userSchema.statics.signup = async function (username, email, password, role) {
   if (!username || !email || !password)
     throw new AppError("All fields are required");
 
@@ -33,7 +34,7 @@ userSchema.statics.signup = async function (username, email, password) {
 
   const hashedPassword = await bcrypt.hash(password, 10);
 
-  const user = User.create({ username, email, password: hashedPassword });
+  const user = User.create({ username, email, password: hashedPassword, role });
   return user;
 };
 
