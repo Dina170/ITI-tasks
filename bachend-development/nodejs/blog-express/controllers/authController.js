@@ -8,10 +8,25 @@ async function register(req, res, next) {
     const user = await User.signup(username, email, password);
     //const token = jwt.sign({email}, process.env.JWT_SECRET);
 
-    res.status(201).json({ email: user.email });
+    res.status(201).json(email);
   } catch (error) {
     next(error);
   }
 }
 
-module.exports = { register };
+async function login(req, res, next) {
+  const { email, password } = req.body;
+
+  try {
+    const user = await User.login(email, password);
+    const token = jwt.sign({ email }, process.env.JWT_SECRET, {
+      expiresIn: "1d",
+    });
+
+    res.status(201).json(token);
+  } catch (error) {
+    next(error);
+  }
+}
+
+module.exports = { register, login };
