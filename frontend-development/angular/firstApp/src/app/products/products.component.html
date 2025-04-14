@@ -1,0 +1,11 @@
+<div class="products">
+    @for (product of products; track $index) {
+    <div [class]="product.onSale ? 'product onSale': 'product'">
+        <img src={{product.image}} alt="">
+        <div class="product-details">
+            <h4>{{product.name}}</h4>
+            <p>{{product.price}}$</p>
+        </div>
+    </div>
+    }
+</div>
