@@ -1,0 +1,11 @@
+<h2>All Categories</h2>
+
+<div class="categories">
+    @for (category of categories; track $index) {
+    <div class="category">
+        <img [src]="category.image" alt="">
+        <h3>{{category.name}}</h3>
+        <p>{{category.price}}</p>
+    </div>
+    }
+</div>
