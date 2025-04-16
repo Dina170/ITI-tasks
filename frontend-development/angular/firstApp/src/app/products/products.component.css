@@ -3,6 +3,13 @@ h2 {
   padding-bottom: 20px;
 }
 
+img {
+  width: 250px;
+  height: 200px;
+  /* padding: 10px; */
+  border-radius: 20px;
+}
+
 .products {
   display: flex;
   align-items: center;
@@ -10,4 +17,32 @@ h2 {
   flex-wrap: wrap;
   gap: 50px;
   margin: 20px 50px;
+}
+
+.categories-container {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+  padding: 10px;
+  justify-content: center;
+}
+
+.category-badge {
+  background-color: #e9ecef;
+  padding: 8px 16px;
+  border-radius: 20px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-badge:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.category-badge.active {
+  background-color: #007bff;
+  color: white;
 }
