@@ -1,16 +1,7 @@
-<h2>All products</h2>
+<h2>{{title()}} products</h2>
 
 <div class="products">
-    @for (product of products; track $index) {
-    <!-- <div [class]="product.onSale ? 'product onSale': 'product'"> -->
-    <!-- <div class="product">
-        <img src={{product.image}} alt="">
-        <h4 class="my-3 px-2">{{product.title.split(" ").slice(0,3).join(" ")}}</h4>
-        <div class="product-details">
-            <p>{{product.price}}$</p>
-            <p>{{product.rating.rate}} ⭐</p>
-        </div>
-    </div> -->
+    @for (product of products(); track product.id) {
     <app-product [product]="product"></app-product>
     }
 </div>
