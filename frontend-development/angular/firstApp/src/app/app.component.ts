@@ -8,13 +8,7 @@ import { SettingComponent } from './setting/setting.component';
 
 @Component({
   selector: 'app-root',
-  imports: [
-    RouterOutlet,
-    NavbarComponent,
-    ProductsComponent,
-    CategoriesComponent,
-    FooterComponent,
-  ],
+  imports: [RouterOutlet, NavbarComponent, FooterComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
