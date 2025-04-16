@@ -1,0 +1,28 @@
+.product-details {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+}
+
+.product {
+  background-color: #eee;
+  border-radius: 20px;
+  padding: 10px;
+  height: 340px;
+}
+
+img {
+  width: 250px;
+  height: 200px;
+  /* padding: 10px; */
+  border-radius: 20px;
+}
+
+.onSale {
+  background-color: #98db9c;
+}
+
+h4 {
+  width: 250px;
+}

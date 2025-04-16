@@ -1,0 +1,8 @@
+<div class="product">
+    <img [src]="product()?.image" alt="">
+    <h4 class="my-3 px-2">{{product()?.title?.split(" ")?.slice(0,3)?.join(" ")}}</h4>
+    <div class="product-details">
+        <p>{{product()?.price}}$</p>
+        <p>{{product()?.rating?.rate}} ⭐</p>
+    </div>
+</div>

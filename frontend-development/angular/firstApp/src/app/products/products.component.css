@@ -3,13 +3,6 @@ h2 {
   padding-bottom: 20px;
 }
 
-img {
-  width: 250px;
-  height: 190px;
-  /* padding: 10px; */
-  border-radius: 20px;
-}
-
 .products {
   display: flex;
   align-items: center;
@@ -17,21 +10,4 @@ img {
   flex-wrap: wrap;
   gap: 50px;
   margin: 20px 50px;
-}
-
-.product-details {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 10px;
-}
-
-.product {
-  background-color: #eee;
-  border-radius: 20px;
-  padding: 10px;
-}
-
-.onSale {
-  background-color: #98db9c;
 }
