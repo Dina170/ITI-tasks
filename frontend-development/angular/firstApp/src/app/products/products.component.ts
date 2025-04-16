@@ -11,5 +11,5 @@ import { ProductComponent } from '../product/product.component';
 })
 export class ProductsComponent {
   products = input<Product[]>();
-  title = input<string>();
+  title = input<string>('All Products');
 }
