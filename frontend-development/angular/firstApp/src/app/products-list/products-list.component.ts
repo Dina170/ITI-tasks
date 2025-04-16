@@ -10,15 +10,6 @@ import { ProductsComponent } from '../products/products.component';
   styleUrl: './products-list.component.css',
 })
 export class ProductsListComponent {
-  // products!: Product[];
-  // filteredProducts!: Product[];
-
-  // constructor(service: ProductsService) {
-  //   this.products = service.products;
-  //   this.filteredProducts = service.products.filter(
-  //     (product) => product.category === 'jewelery'
-  //   );
-  // }
   products!: Product[];
   filteredProducts!: Product[];
 
