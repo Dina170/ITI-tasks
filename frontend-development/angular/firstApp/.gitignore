@@ -43,3 +43,6 @@ Thumbs.db
 
 .vscode
 .angular
+
+/src/app/setting
+/src/app/setting-profile
