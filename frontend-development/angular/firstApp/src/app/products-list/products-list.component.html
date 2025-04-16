@@ -1,2 +1,6 @@
-<app-products [products]="filteredProducts" [title]="'Top'"></app-products>
-<app-products [products]="products" [title]="'All'"></app-products>
+<app-products [products]="filteredProducts" [title]="'Top Jewelery'"></app-products>
+@defer (on viewport) {
+<app-products [products]="products" [title]="'All Products'"></app-products>
+} @placeholder {
+<div>loading products</div>
+}
