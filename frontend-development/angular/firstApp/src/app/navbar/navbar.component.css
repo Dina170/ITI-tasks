@@ -9,6 +9,7 @@
   margin: 20px;
 }
 
-.nav-items p {
+.nav-items a {
   margin-right: 20px;
+  text-decoration: none;
 }

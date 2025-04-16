@@ -7,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrl: './footer.component.css',
 })
 export class FooterComponent {
-  imgUrl: string = 'images/7263263_3565075.jpg';
+  imgUrl: string = 'images/logo.jpg';
 }
