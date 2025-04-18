@@ -1,5 +1,3 @@
-name = ""
-
 while True:
     name = input("enter name: ").strip()
     if not name:
