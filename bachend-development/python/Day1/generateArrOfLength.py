@@ -1,5 +1,7 @@
-numbers = [1, 2 , 3, 4, 5, 6, 7]
-start = 0
-length = 2
+start = 2
+length = 5
+numbers = []
+for i in range(start, start+length):
+    numbers.append(i)
 
-print(numbers[start:(start+length)])
+print(numbers)
