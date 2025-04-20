@@ -1,6 +1,7 @@
 from validate_input import valid_email, validate_not_empty, validate_password, validate_phone
 from add_item import add_item_to_file
 from file_helpers import read_file
+from project_crud import add_project, edit_project, delete_project, view_projects
 
 def check_email_exists(email):
     users = read_file("users.json")    
@@ -69,6 +70,22 @@ def login():
     
     if found_user and found_user["password"] == password:
         print("successfully logged in")    
+        print("1. view projects")
+        print("2. add project")
+        print("3. edit project")
+        print("4. delete project")
+        selection = input("enter number: ")
+        if selection == "1":
+            view_projects()
+        elif selection == "2":
+            add_project(found_user["id"]);
+        elif selection == "3":
+            edit_project();
+        elif selection == "4":
+            delete_project();
+        else:
+            selection = ""
+            print("not valid number")
     else:
         print("not a valid user")
             
