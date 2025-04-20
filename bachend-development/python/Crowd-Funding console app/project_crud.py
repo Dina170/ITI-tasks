@@ -41,5 +41,13 @@ def edit_project():
  pass
 def delete_project():
  pass
-def view_projects():
- pass
+def view_projects(userId):
+    try:
+        projects = read_file("projects.json")
+    except FileNotFoundError:
+        print("no projects yet")
+    else:
+        user_projects = [project for project in projects if project["userId"] == userId]
+        print(user_projects)
+    
+    
