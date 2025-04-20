@@ -1,4 +1,5 @@
 import re
+import datetime
 
 def validate_not_empty(data):
     for k, v in data.items():
@@ -33,6 +34,12 @@ def validate_password(password):
 def validate_phone(phone):
     return re.match("^01[0125][0-9]{8}", phone)
 
+def validate_date(date):
+    try:
+      return datetime.date.fromisoformat(date)
+    except:
+      print('Incorrect date format it should be YYYY-MM-DD')
+
 # res = validate_not_empty({"id": 1, "name": ""})
 # if res:
 #     print(f"{res} is required")
@@ -52,6 +59,12 @@ def validate_phone(phone):
 #     print ("no")
 
 # res = validate_phone("01000250136")
+# if res:
+#     print(res)
+# else:
+#     print ("no")
+
+# res = validate_date("2025/09/12")
 # if res:
 #     print(res)
 # else:
