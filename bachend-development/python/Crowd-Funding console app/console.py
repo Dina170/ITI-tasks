@@ -69,23 +69,24 @@ def login():
     found_user = check_email_exists(email)
     
     if found_user and found_user["password"] == password:
-        print("successfully logged in")    
-        print("1. view projects")
-        print("2. add project")
-        print("3. edit project")
-        print("4. delete project")
-        selection = input("enter number: ")
-        if selection == "1":
-            view_projects()
-        elif selection == "2":
-            add_project(found_user["id"]);
-        elif selection == "3":
-            edit_project();
-        elif selection == "4":
-            delete_project();
-        else:
-            selection = ""
-            print("not valid number")
+        print("successfully logged in")
+        while True:    
+            print("1. view projects")
+            print("2. add project")
+            print("3. edit project")
+            print("4. delete project")
+            selection = input("enter number: ")
+            if selection == "1":
+                view_projects(found_user["id"])
+            elif selection == "2":
+                add_project(found_user["id"]);
+            elif selection == "3":
+                edit_project(found_user["id"]);
+            elif selection == "4":
+                delete_project(found_user["id"]);
+            else:
+                selection = ""
+                print("not valid number")
     else:
         print("not a valid user")
             
