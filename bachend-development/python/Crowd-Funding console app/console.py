@@ -2,15 +2,27 @@ from validate_input import valid_email, validate_not_empty, validate_password, v
 from add_item import add_item_to_file
 from file_helpers import read_file
 
+def check_email_exists(email):
+    users = read_file("users.json")    
+    for user in users:
+        if user["email"] == email:
+            return user
+
 def register():
     first_name = input("enter first name: ")
     last_name = input("enter last name: ")
     
-    email = input("enter email: ")
-    while not valid_email(email):
-        print("not a valid email")
+    while True:
         email = input("enter email: ")
+        if not valid_email(email):
+            print("not a valid email")
         
+        elif check_email_exists(email):
+            print("email already exists")
+        
+        else:            
+            break
+    
     password = input("enter password: ")
     error = validate_password(password)
     while error:
@@ -28,7 +40,10 @@ def register():
         print("not a valid phone number")
         phone = input("enter phone number: ")
         
+    users = read_file("users.json")    
+        
     data = {
+        "id": users[-1]["id"] + 1 if users else 1,
         "first_name": first_name,
         "last_name": last_name,
         "email": email,
@@ -50,13 +65,11 @@ def login():
         
     password = input("enter password: ")
     
-    users = read_file("users.json")
-    found_user = ""
-    for user in users:
-        if user["email"] == email and user["password"] == password:
-            print("successfully logged in")
-            found_user = user
-    if not found_user:
+    found_user = check_email_exists(email)
+    
+    if found_user and found_user["password"] == password:
+        print("successfully logged in")    
+    else:
         print("not a valid user")
             
 
@@ -71,6 +84,5 @@ while True:
         login();
     else:
         selection = ""
-        print("not valid number")       
-        
-        
+        print("not valid number")
+
