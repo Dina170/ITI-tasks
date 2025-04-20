@@ -2,6 +2,11 @@ from file_helpers import read_file, write_file
 from add_item import add_item_to_file
 from validate_input import validate_not_empty, validate_date
 
+def search_project(id, projects):
+    for project in projects:
+        if project["id"] == id:
+            return project
+
 def add_project(userId):
     title = input("enter title: ")
     details = input("enter details: ")
@@ -37,10 +42,31 @@ def add_project(userId):
     else:
         add_item_to_file(data, "projects.json")
     
-def edit_project():
- pass
-def delete_project():
- pass
+def edit_project(userId, data):
+    pass
+        
+def delete_project(userId):
+    project_id = input("enter project id: ")
+    while not project_id.isdigit():
+        print("project id must be number")
+        project_id = input("enter project id: ")
+    project_id = int(project_id)
+    
+    try:
+        projects = read_file("projects.json")
+    except FileNotFoundError:
+        print("no projects yet")
+    else:
+        found_project = search_project(project_id, projects)
+        if found_project:
+            if userId == found_project["userId"]:
+                projects = [project for project in projects if project["id"] != project_id]
+                write_file("projects.json", projects)
+            else:
+                print("not authorized")
+        else:
+            print("project not found")
+            
 def view_projects(userId):
     try:
         projects = read_file("projects.json")
