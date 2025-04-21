@@ -6,4 +6,12 @@ def get_current_temperature(city):
     print(f'temp: {data.get("current").get("temp_c")}')
     
     
-get_current_temperature('Mansoura')
+def get_temperature_after(city, days, hour=None):
+    r = requests.get(f'http://api.weatherapi.com/v1/forecast.json?key=af1b64cb78ea4de0a34173742252104&q={city}&days={days}&hour={hour}')
+    data = r.json().get("forecast").get("forecastday")
+    
+    temps = [{day.get("date"): day.get("hour")[0].get("temp_c")} for day in data]
+    print(f'temp: {temps}')
+    
+# get_current_temperature('Mansoura')
+get_temperature_after("Mansoura", 5, 6)
