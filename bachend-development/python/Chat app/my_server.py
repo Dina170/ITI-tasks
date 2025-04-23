@@ -10,8 +10,7 @@ class MyChatApp(WebSocket):
         if message_data.get('messageType') == 'status':
             clients[self] = message_data.get('user')
             self.send_client_list()
-        else:
-            self.send_to_others(message)
+        self.send_to_others(message)
     
     def send_to_others(self, message):
         for client in clients:
@@ -27,17 +26,23 @@ class MyChatApp(WebSocket):
         for client in clients:
             client.send_message(json.dumps(message))
             
-    # def send_message(self, message):
-    #     if isinstance(message, (dict, list)):
-    #         message = json.dumps(message)
-    #     super().send_message(message)
-            
+    def send_status(self, user, text):
+        message = {
+            "user": user,
+            "text": text,
+            "messageType": "status"
+        }
+        for client in clients:
+            client.send_message(json.dumps(message))
+                        
     def handle_connected(self):
         print(self)
         
     def handle_close(self):
+        username = clients.get(self)
         if self in clients:
             del clients[self]
+        self.send_status(username, "is offline")        
         self.send_client_list()
         
 

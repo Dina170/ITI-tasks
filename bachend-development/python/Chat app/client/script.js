@@ -18,21 +18,15 @@ webSocket.onmessage = function (event) {
 
   if (message.messageType === "clients") {
     showClients(message.clients);
-    // showClients();
+    return;
   } else if (message.messageType === "user") {
     message.messageType = "server";
-    showMessage(message);
   }
+  showMessage(message);
 };
 
 webSocket.onclose = function () {
   console.log("you are offline");
-  const message = {
-    user: username,
-    text: "is offline",
-    messageType: "status",
-  };
-  webSocket.send(JSON.stringify(message));
 };
 
 function showMessage(message) {
