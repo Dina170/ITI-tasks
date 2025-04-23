@@ -1,14 +1,10 @@
 const webSocket = new WebSocket("ws://localhost:8080");
 
 let username;
-let clients = [];
 
 webSocket.onopen = function () {
   console.log("You are connected now");
   username = prompt("enter username:");
-  clients.push(username);
-  console.log(clients);
-
   const message = {
     user: username,
     text: "is connected now",
@@ -18,21 +14,14 @@ webSocket.onopen = function () {
 };
 
 webSocket.onmessage = function (event) {
-  try {
-    const message =
-      typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+  const message = JSON.parse(event.data);
 
-    if (message.messageType === "clients") {
-      clients = message.clients;
-      showClients();
-    } else {
-      if (message.messageType === "user") {
-        message.messageType = "server";
-      }
-      showMessage(message);
-    }
-  } catch (error) {
-    console.error("Error parsing message:", error);
+  if (message.messageType === "clients") {
+    showClients(message.clients);
+    // showClients();
+  } else if (message.messageType === "user") {
+    message.messageType = "server";
+    showMessage(message);
   }
 };
 
@@ -68,7 +57,7 @@ function sendMessage() {
   webSocket.send(JSON.stringify(message));
 }
 
-function showClients() {
+function showClients(clients) {
   const clientsDiv = document.querySelector(".online-clients");
   clientsDiv.innerHTML = `<h4>Online Users (${clients.length})</h4>`;
   clients.forEach((client) => {
