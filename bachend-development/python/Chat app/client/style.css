@@ -18,8 +18,28 @@ h3 {
   margin-bottom: 1.5rem;
 }
 
+.chat-container {
+  display: flex;
+  gap: 20px;
+  height: calc(100vh - 150px);
+}
+
+.online-clients {
+  width: 250px;
+  flex-shrink: 0;
+  max-height: 100%;
+  overflow-y: auto;
+}
+
+.left-side {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .messages {
-  height: 400px;
+  flex: 1;
+  height: auto;
   overflow-y: auto;
   padding: 1rem;
   margin-bottom: 1rem;
@@ -94,4 +114,38 @@ button {
 
 button:hover {
   background-color: #1557b0;
+}
+
+.online-clients {
+  background: #fff;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 1rem;
+  border: 1px solid #e0e0e0;
+}
+
+.online-clients h4 {
+  color: #1a73e8;
+  font-size: 1rem;
+  margin-bottom: 10px;
+}
+
+.client-item {
+  display: flex;
+  align-items: center;
+  padding: 5px 10px;
+  margin: 2px 0;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  background: #4caf50;
+  border-radius: 50%;
+  margin-right: 8px;
+}
+
+.client-name {
+  color: #333;
+  font-size: 0.9rem;
 }
