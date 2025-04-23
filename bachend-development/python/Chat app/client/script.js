@@ -1,10 +1,14 @@
 const webSocket = new WebSocket("ws://localhost:8080");
 
 let username;
+let clients = [];
 
 webSocket.onopen = function () {
   console.log("You are connected now");
   username = prompt("enter username:");
+  clients.push(username);
+  console.log(clients);
+
   const message = {
     user: username,
     text: "is connected now",
@@ -14,10 +18,22 @@ webSocket.onopen = function () {
 };
 
 webSocket.onmessage = function (event) {
-  const message = JSON.parse(event.data);
-  console.log("onmessage", message);
-  if (message.messageType == "user") message.messageType = "server";
-  showMessage(message);
+  try {
+    const message =
+      typeof event.data === "string" ? JSON.parse(event.data) : event.data;
+
+    if (message.messageType === "clients") {
+      clients = message.clients;
+      showClients();
+    } else {
+      if (message.messageType === "user") {
+        message.messageType = "server";
+      }
+      showMessage(message);
+    }
+  } catch (error) {
+    console.error("Error parsing message:", error);
+  }
 };
 
 webSocket.onclose = function () {
@@ -50,4 +66,18 @@ function sendMessage() {
   messageBox.value = "";
   showMessage(message);
   webSocket.send(JSON.stringify(message));
+}
+
+function showClients() {
+  const clientsDiv = document.querySelector(".online-clients");
+  clientsDiv.innerHTML = `<h4>Online Users (${clients.length})</h4>`;
+  clients.forEach((client) => {
+    const clientDiv = document.createElement("div");
+    clientDiv.className = "client-item";
+    clientDiv.innerHTML = `
+      <span class="status-dot"></span>
+      <span class="client-name">${client}</span>
+    `;
+    clientsDiv.appendChild(clientDiv);
+  });
 }
