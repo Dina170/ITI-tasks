@@ -8,33 +8,34 @@ webSocket.onopen = function () {
   const message = {
     user: username,
     text: "is connected now",
-    // messageType: "status"
+    messageType: "status",
   };
   webSocket.send(JSON.stringify(message));
 };
 
 webSocket.onmessage = function (event) {
   const message = JSON.parse(event.data);
-  console.log(message);
-
-  showMessage(message, "server");
+  console.log("onmessage", message);
+  if (message.messageType == "user") message.messageType = "server";
+  showMessage(message);
 };
 
 webSocket.onclose = function () {
   console.log("you are offline");
-  showMessage(`${username} is offline`, "status");
+  const message = {
+    user: username,
+    text: "is offline",
+    messageType: "status",
+  };
+  webSocket.send(JSON.stringify(message));
 };
 
-function showMessage(message, messageType) {
+function showMessage(message) {
   const messagesDiv = document.querySelector(".messages");
   const messageDiv = document.createElement("div");
-  messageDiv.className = messageType + "-message";
+  messageDiv.className = message.messageType + "-message";
 
-  if (messageType === "status") {
-    messageDiv.textContent = message;
-  } else {
-    messageDiv.textContent = `${message.user}: ${message.text}`;
-  }
+  messageDiv.textContent = `${message.user}: ${message.text}`;
 
   messagesDiv.appendChild(messageDiv);
 }
@@ -44,8 +45,9 @@ function sendMessage() {
   const message = {
     user: username,
     text: messageBox.value,
+    messageType: "user",
   };
   messageBox.value = "";
-  showMessage(message, "user");
+  showMessage(message);
   webSocket.send(JSON.stringify(message));
 }
