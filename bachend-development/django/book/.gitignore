@@ -1,2 +1,3 @@
 venv
 book/books/__pycache__
+book/books/static/books/images/*
