@@ -1,0 +1,16 @@
+body {
+  display: flex;
+  justify-content: center;
+}
+
+.books {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-wrap: wrap;
+  width: 80%;
+}
+
+.book {
+  width: 300px;
+}
