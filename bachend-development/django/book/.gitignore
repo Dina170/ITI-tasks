@@ -1,3 +1,6 @@
 venv
+book/book/__pycache__
 book/books/__pycache__
 book/books/static/books/images/*
+book/media
+books.json
