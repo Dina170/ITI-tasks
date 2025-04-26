@@ -4,3 +4,5 @@ book/books/__pycache__
 book/books/static/books/images/*
 book/media
 books.json
+book/books/__pycache__
+book/books/migrations/__pycache__
