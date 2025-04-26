@@ -1,0 +1,12 @@
+<div class="card" style="width: 18rem;">
+    <img class="card-img-top" [src]="'https://image.tmdb.org/t/p/w500' + movie()?.poster_path" height="300"
+        alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title">{{movie()?.title}}</h5>
+        <p class="card-text">{{movie()?.overview}}</p>
+        <div class="d-flex justify-content-center align-items-center">
+            <a href="#" class="btn btn-primary">View details</a>
+            <span class="ms-auto">{{movie()?.vote_average}}⭐</span>
+        </div>
+    </div>
+</div>
