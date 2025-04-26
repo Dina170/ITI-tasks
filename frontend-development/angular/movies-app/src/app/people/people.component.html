@@ -1,0 +1,5 @@
+<div class="people-grid container">
+    @for (person of people; track person.id) {
+    <app-person [person]="person"></app-person>
+    }
+</div>

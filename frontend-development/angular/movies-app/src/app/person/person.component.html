@@ -1,0 +1,7 @@
+<div class="person-card">
+    <img [src]="imageBaseUrl + person()?.profile_path" [alt]="person()?.name">
+    <div class="person-info">
+        <h3>{{person()?.name}}</h3>
+        <p class="department">{{person()?.known_for_department}}</p>
+    </div>
+</div>
