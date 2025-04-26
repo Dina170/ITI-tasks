@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { MoviesComponent } from './movies/movies.component';
 import { AllComponent } from './all/all.component';
 import { PeopleComponent } from './people/people.component';
+import { TvComponent } from './tv/tv.component';
 
 export const routes: Routes = [
   {
@@ -24,7 +25,7 @@ export const routes: Routes = [
   },
   {
     path: 'tv',
-    component: MoviesComponent,
+    component: TvComponent,
     data: { mediaType: 'tv' },
   },
   {
