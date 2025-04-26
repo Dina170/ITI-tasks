@@ -1,0 +1,16 @@
+{% extends "books/base.html" %} {% block content %} {% load static %}
+<div class="row g-4">
+  <div class="col-4">
+    <div class="card h-100">
+      <div class="card-body">
+        <h5 class="card-title">{{ author.name }}</h5>
+        <ul>
+          {% for book in books %}
+          <li class="card-text">{{ book.name }}</li>
+          {% endfor %}
+        </ul>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
