@@ -1,0 +1,58 @@
+<div class="details-container">
+    <div class="backdrop" [style.background-image]="imageBaseUrl + movie.backdrop_path"></div>
+
+    <div class="content">
+        <div class="profile-section">
+            <img [src]="imageBaseUrl + movie.poster_path" [alt]="movie.title" class="poster-image">
+            <div class="basic-info">
+                <h1>{{movie.title}}</h1>
+                <p class="tagline">{{movie.tagline}}</p>
+
+                <div class="meta-info">
+                    <p class="release-date">Release Date: {{movie.release_date | date:'mediumDate'}}</p>
+                    <p class="runtime">Runtime: {{movie.runtime}} minutes</p>
+
+                    <div class="genres">
+                        @for (genre of movie.genres; track genre.id) {
+                        <span class="genre-tag">{{genre.name}}</span>
+                        }
+                    </div>
+
+                    <div class="rating">
+                        <span class="vote">{{movie.vote_average | number:'1.1-1'}}</span>
+                        <span class="vote-count">({{movie.vote_count}} votes)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="overview-section">
+            <h2>Overview</h2>
+            <p>{{movie.overview}}</p>
+        </div>
+
+        <div class="additional-info">
+            <div class="info-item">
+                <span class="label">Budget:</span>
+                <span class="value">${{movie.budget | number}}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Status:</span>
+                <span class="value">{{movie.status}}</span>
+            </div>
+        </div>
+
+        @if (movie.homepage || movie.imdb_id) {
+        <div class="external-links">
+            @if (movie.homepage) {
+            <a [href]="movie.homepage" target="_blank" class="website-link">Official Website</a>
+            }
+            @if (movie.imdb_id) {
+            <a [href]="'https://www.imdb.com/title/' + movie.imdb_id" target="_blank" class="imdb-link">
+                View on IMDb
+            </a>
+            }
+        </div>
+        }
+    </div>
+</div>

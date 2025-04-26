@@ -3,6 +3,7 @@ import { MoviesComponent } from './movies/movies.component';
 import { AllComponent } from './all/all.component';
 import { PeopleComponent } from './people/people.component';
 import { TvComponent } from './tv/tv.component';
+import { MovieDetailsComponent } from './movie-details/movie-details.component';
 
 export const routes: Routes = [
   {
@@ -31,5 +32,9 @@ export const routes: Routes = [
   {
     path: ':mediaType',
     component: MoviesComponent,
+  },
+  {
+    path: ':mediaType/:id',
+    component: MovieDetailsComponent,
   },
 ];

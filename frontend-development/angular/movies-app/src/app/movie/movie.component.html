@@ -5,7 +5,7 @@
         <h5 class="card-title">{{movie()?.title}}</h5>
         <p class="card-text">{{movie()?.overview}}</p>
         <div class="d-flex justify-content-center align-items-center">
-            <a href="#" class="btn btn-primary">View details</a>
+            <a [routerLink]="['/', movie()?.media_type, movie()?.id]" class="btn btn-primary">View details</a>
             <span class="ms-auto">{{movie()?.vote_average}}⭐</span>
         </div>
     </div>
