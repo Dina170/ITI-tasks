@@ -1,0 +1,46 @@
+@if (person) {
+<div class="details-container">
+    <div class="content">
+        <div class="profile-section">
+            <img [src]="imageBaseUrl + person.profile_path" [alt]="person.name" class="profile-image">
+            <div class="basic-info">
+                <h1>{{person.name}}</h1>
+                <p class="department">{{person.known_for_department}}</p>
+
+                @if (person.birthday) {
+                <p class="birth-info">
+                    Born: {{person.birthday | date:'mediumDate'}}
+                    @if (person.place_of_birth) {
+                    in {{person.place_of_birth}}
+                    }
+                </p>
+                }
+            </div>
+        </div>
+
+        <div class="biography-section">
+            <h2>Biography</h2>
+            <p>{{person.biography}}</p>
+        </div>
+
+        @if (person.also_known_as.length > 0) {
+        <div class="also-known-section">
+            <h2>Also Known As</h2>
+            <ul>
+                @for (name of person.also_known_as; track name) {
+                <li>{{name}}</li>
+                }
+            </ul>
+        </div>
+        }
+
+        @if (person.imdb_id) {
+        <div class="external-links">
+            <a [href]="'https://www.imdb.com/name/' + person.imdb_id" target="_blank" class="imdb-link">
+                View on IMDb
+            </a>
+        </div>
+        }
+    </div>
+</div>
+}

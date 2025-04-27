@@ -1,11 +1,10 @@
 import { Component, input } from '@angular/core';
-import { CommonModule } from '@angular/common';
 import { Person } from '../person';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-person',
-  standalone: true,
-  imports: [CommonModule],
+  imports: [RouterLink],
   templateUrl: './person.component.html',
   styleUrl: './person.component.css',
 })

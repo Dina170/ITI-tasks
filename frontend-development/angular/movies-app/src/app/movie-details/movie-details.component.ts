@@ -41,8 +41,8 @@ export class MovieDetailsComponent implements OnInit {
   constructor(private m: MoviesServiceService, private route: ActivatedRoute) {}
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
-      this.movieId = Number(params.get('id')!);
-      this.mediaType = params.get('mediaType')!;
+      this.movieId = Number(params.get('id'));
+      this.mediaType = params.get('mediaType') || 'all';
       this.loadMovie();
     });
   }
@@ -51,6 +51,7 @@ export class MovieDetailsComponent implements OnInit {
     this.m.getDetails(this.mediaType, this.movieId).subscribe({
       next: (res) => {
         this.movie = res;
+        console.log('details', res);
       },
       error: (err) => console.log(err),
     });

@@ -1,0 +1,53 @@
+@if (tv) {
+<div class="details-container">
+    <div class="backdrop" [style.backgroundImage]="'url(' + imageBaseUrl + tv.backdrop_path + ')'"></div>
+
+    <div class="content">
+        <div class="profile-section">
+            <img [src]="imageBaseUrl + tv.poster_path" [alt]="tv.name" class="poster-image">
+            <div class="basic-info">
+                <h1>{{tv.name}}</h1>
+                <p class="tagline">{{tv.tagline}}</p>
+
+                <div class="meta-info">
+                    <p class="air-date">First Air Date: {{tv.first_air_date | date:'mediumDate'}}</p>
+                    <p class="seasons">Seasons: {{tv.number_of_seasons}} ({{tv.number_of_episodes}} episodes)</p>
+
+                    <div class="genres">
+                        @for (genre of tv.genres; track genre.id) {
+                        <span class="genre-tag">{{genre.name}}</span>
+                        }
+                    </div>
+
+                    <div class="rating">
+                        <span class="vote">{{tv.vote_average | number:'1.1-1'}}</span>
+                        <span class="vote-count">({{tv.vote_count}} votes)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="overview-section">
+            <h2>Overview</h2>
+            <p>{{tv.overview}}</p>
+        </div>
+
+        <div class="additional-info">
+            <div class="info-item">
+                <span class="label">Status:</span>
+                <span class="value">{{tv.status}}</span>
+            </div>
+            <div class="info-item">
+                <span class="label">Popularity:</span>
+                <span class="value">{{tv.popularity | number:'1.0-0'}}</span>
+            </div>
+        </div>
+
+        @if (tv.homepage) {
+        <div class="external-links">
+            <a [href]="tv.homepage" target="_blank" class="website-link">Official Website</a>
+        </div>
+        }
+    </div>
+</div>
+}

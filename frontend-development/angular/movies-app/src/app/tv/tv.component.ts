@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { Tv } from '../tv';
 import { MoviesServiceService } from '../movies-service.service';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-tv',
-  imports: [],
+  imports: [RouterLink],
   templateUrl: './tv.component.html',
   styleUrl: './tv.component.css',
 })

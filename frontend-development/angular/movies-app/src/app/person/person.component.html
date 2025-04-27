@@ -3,5 +3,7 @@
     <div class="person-info">
         <h3>{{person()?.name}}</h3>
         <p class="department">{{person()?.known_for_department}}</p>
+        <a [routerLink]="['/people', person()?.id]" class="btn btn-primary">View details</a>
+
     </div>
 </div>
