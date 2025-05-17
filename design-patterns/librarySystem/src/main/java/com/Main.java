@@ -20,37 +20,37 @@ public class Main {
         User john = new User("John", false);
         User Alice = new User("Alice", true);
 
-        library.borrowBook("Harry Potter", john );
+        library.borrowBook("Harry Potter", john, 5 );
         System.out.printf("\n"+"=============================");
         library.returnBook("Harry Potter");
         System.out.println("=============================");
-        library.borrowBook("Lord of the Rings",  john);
+        library.borrowBook("Lord of the Rings",  john, 10);
         System.out.println("=============================");
        // library.returnBook("Lord of the Rings")
-        library.borrowBook("math", john );
+        library.borrowBook("math", john, 20 );
         library.returnBook("math");
         System.out.println("=============================");
-        library.borrowBook("Lord of the Rings", Alice);
+        library.borrowBook("Lord of the Rings", Alice, 5);
         System.out.println("=============================");
-        library.borrowBook("Outlander", Alice);
+        library.borrowBook("Outlander", Alice, 10);
         System.out.println("=============================");
         library.addBook("Outlander", BookType.EBOOK);
-        library.borrowBook("Outlander", Alice);
+        library.borrowBook("Outlander", Alice, 20);
 
          library.addBook("Premium Book", BookType.PREMIUM);
     
         User premiumUser = new User("test", true);
         User regularUser = new User("test2", false);
 
-        library.borrowBook("Premium Book", premiumUser); 
+        library.borrowBook("Premium Book", premiumUser, 5); 
 
-        library.borrowBook("Premium Book", regularUser);
+        library.borrowBook("Premium Book", regularUser, 10);
         
         library.accessEBook("Design Patterns", premiumUser);
         library.accessEBook("Design Patterns", regularUser);
         
         
-        library.borrowBook("special", regularUser);
+        library.borrowBook("special", regularUser, 5);
         
         String json = "{\"bookTitle\":\"Design Patterns\",\"isBorrowable\":true,\"authorName\":\"Erich Gamma\",\"year\":1994}";
     

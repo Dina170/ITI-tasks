@@ -14,7 +14,10 @@ public class LibraryService {
         Librarian librarian = new Librarian();
         Manger manger = new Manger();
         librarian.setNextHandler(manger);
+        Director director = new Director();
         
+        librarian.setNextHandler(manger);
+        manger.setNextHandler(director);
         this.approvalChain = librarian;
     }
 
@@ -32,7 +35,7 @@ public class LibraryService {
         return null;
     }
 
-    public void borrowBook(String title, User user) {
+    public void borrowBook(String title, User user, int days) {
         BookInterface book = findBook(title);
         if (book == null) {
             System.out.println(title + " not found");
@@ -40,19 +43,20 @@ public class LibraryService {
         }
 
         if (book instanceof PremiumBookDecorator) {
-            handlePremiumBorrow((PremiumBookDecorator)book, user);
+            handlePremiumBorrow((PremiumBookDecorator)book, user, days);
             return;
         }
 
-        BookRequest request = new BookRequest(book, user);
+        BookRequest request = new BookRequest(book, user, days);
         approvalChain.handleRequest(request);
         
         if (request.isApproved() && book instanceof Borrowable) {
             ((Borrowable)book).borrowBook(user);
+            System.out.println("Due in " + days + " days");
         }
     }
 
-    private void handlePremiumBorrow(PremiumBookDecorator book, User user) {
+    private void handlePremiumBorrow(PremiumBookDecorator book, User user, int days) {
         if (!user.isPremium()) {
             System.out.println("Premium book requires premium membership");
             return;
@@ -60,6 +64,7 @@ public class LibraryService {
         
         System.out.println("Premium access granted for: " + book.getTitle());
         book.borrowBook(user);
+        System.out.println("Extended due date: " + (days + 7) + " days");
     }
 
     public void returnBook(String title) {

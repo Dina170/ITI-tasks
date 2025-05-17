@@ -3,6 +3,7 @@ package com;
 
 public class Librarian implements ApprovalHandler {
     private ApprovalHandler next;
+    private static final int MAX_DAYS = 7;
     
     @Override
     public void setNextHandler(ApprovalHandler next) {
@@ -22,12 +23,15 @@ public class Librarian implements ApprovalHandler {
             }
         } 
         
-        if (book instanceof Borrowable) {
-            System.out.println("Librarian approved: " + book.getTitle());
+        if (request.getDaysRequested() <= MAX_DAYS && book instanceof Borrowable) {
+            System.out.printf("Librarian approved %s for %d days\n", 
+                book.getTitle(), request.getDaysRequested());
             request.approve();
         }
         else if (next != null) {
             next.handleRequest(request);
+        } else {
+            System.out.println("Request cannot be approved");
         }
     }
 }
