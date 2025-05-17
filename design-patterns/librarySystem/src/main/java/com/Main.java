@@ -52,5 +52,16 @@ public class Main {
         
         library.borrowBook("special", regularUser);
         
+        String json = "{\"bookTitle\":\"Design Patterns\",\"isBorrowable\":true,\"authorName\":\"Erich Gamma\",\"year\":1994}";
+    
+    
+        BookInterface book2 = ExternalBookAdapter.convertToBook(json);
+        System.out.println("Converted: " + book2);
+        
+//        if (book2 instanceof Borrowable) {
+//            ((Borrowable)book).borrowBook(new User("Alice"));
+//        }
+    
+        
     }
 }
