@@ -56,4 +56,13 @@ public class LibraryService {
             System.out.println(title+" is not found in the library.");
         }
     }
+    
+    public void accessEBook(String title, User user) {
+    BookInterface book = findBook(title);
+    if (book instanceof EBook) {
+        ((EBook)book).access(user);
+    } else {
+        System.out.println(title + " is not an eBook");
+    }
+}
 }

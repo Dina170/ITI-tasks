@@ -10,7 +10,10 @@ public class BookFactoryImpl implements BookFactory {
             case HISTORICAL:
                 return new HistoricalBook(title);
             case EBOOK:
-                return new EBook(title);
+                return new EBook(title, false);
+            case PREMIUM_EBOOK: 
+                EBook baseEbook = new EBook(title, false);
+                return new PremiumEBookDecorator(baseEbook, 3);
             case PREMIUM: 
                 return new PremiumBookDecorator(new BorrowableBook(title), 10);
             default:
