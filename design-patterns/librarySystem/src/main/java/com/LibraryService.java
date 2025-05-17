@@ -26,17 +26,27 @@ public class LibraryService {
         return null;
     }
 
-    public void borrowBook(String title,User user) {
-        BookInterface book = findBook(title);
-        if(book==null){
-            System.out.println(title+" is not found in the library.");
-        } else if (book instanceof Borrowable && !((Borrowable) book).isAvailable()) {
-            System.out.println(title+" is not available.");
-        }else if (book instanceof Borrowable){
-            ((Borrowable) book).borrowBook(user);
-        }
-
+    public void borrowBook(String title, User user) {
+    BookInterface book = findBook(title);
+    if (book == null) {
+        System.out.println(title + " not found in the library.");
+        return;
     }
+    
+    if (book instanceof Borrowable) {
+        Borrowable borrowable = (Borrowable) book;
+        if (!borrowable.isAvailable()) {
+            System.out.println(title + " is not available.");
+        } else {
+            if (user.isPremium()) {
+                borrowable = new PremiumBookDecorator((BorrowableBook)borrowable, 10);
+            }
+            borrowable.borrowBook(user);
+        }
+    } else {
+        System.out.println(title + " is not a borrowable item.");
+    }
+}
 
     public void returnBook(String title) {
         BookInterface book = findBook(title);

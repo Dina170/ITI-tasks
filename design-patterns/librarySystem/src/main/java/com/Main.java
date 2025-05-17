@@ -34,6 +34,13 @@ public class Main {
         library.addBook("Outlander", BookType.EBOOK);
         library.borrowBook("Outlander", Alice);
 
+         library.addBook("Premium Book", BookType.PREMIUM);
+    
+        User premiumUser = new User("test", true);
+        User regularUser = new User("test2", false);
 
+        library.borrowBook("Premium Book", premiumUser); 
+
+        library.borrowBook("Premium Book", regularUser);
     }
 }
