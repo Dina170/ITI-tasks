@@ -1,0 +1,39 @@
+package com;
+
+public class Main {
+    public static void main(String[] args) {
+        BookFactory factory = new BookFactoryImpl();
+        LibraryService library = new LibraryService(factory);
+        Book book = new Book("Harry Potter");
+        Book physicalBook = new PhysicalBook("Lord of the Rings");
+        Book historicalBook = new HistoricalBook("Outlander");
+        Book ebook = new EBook("Outlander");
+
+        library.addBook("Harry Potter", BookType.REGULAR);
+        library.addBook("Lord of the Rings", BookType.PHYSICAL);
+        library.addBook("Clean Code", BookType.EBOOK);
+
+        // Create users
+        User john = new User("John", false);
+        User Alice = new User("Alice", true);
+
+        library.borrowBook("Harry Potter", john );
+        System.out.printf("\n"+"=============================");
+        library.returnBook("Harry Potter");
+        System.out.println("=============================");
+        library.borrowBook("Lord of the Rings",  john);
+        System.out.println("=============================");
+       // library.returnBook("Lord of the Rings")
+        library.borrowBook("math", john );
+        library.returnBook("math");
+        System.out.println("=============================");
+        library.borrowBook("Lord of the Rings", Alice);
+        System.out.println("=============================");
+        library.borrowBook("Outlander", Alice);
+        System.out.println("=============================");
+        library.addBook("Outlander", BookType.EBOOK);
+        library.borrowBook("Outlander", Alice);
+
+
+    }
+}
