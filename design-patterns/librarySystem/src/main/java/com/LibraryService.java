@@ -7,9 +7,15 @@ public class LibraryService {
 
     private List<BookInterface> books = new ArrayList<>();
     private BookFactory bookFactory;
+    private final ApprovalHandler approvalChain;
 
     LibraryService(BookFactory bookFactory){
         this.bookFactory = bookFactory;
+        Librarian librarian = new Librarian();
+        Manger manger = new Manger();
+        librarian.setNextHandler(manger);
+        
+        this.approvalChain = librarian;
     }
 
     public void addBook(String title, BookType type) {
@@ -27,26 +33,34 @@ public class LibraryService {
     }
 
     public void borrowBook(String title, User user) {
-    BookInterface book = findBook(title);
-    if (book == null) {
-        System.out.println(title + " not found in the library.");
-        return;
-    }
-    
-    if (book instanceof Borrowable) {
-        Borrowable borrowable = (Borrowable) book;
-        if (!borrowable.isAvailable()) {
-            System.out.println(title + " is not available.");
-        } else {
-            if (user.isPremium()) {
-                borrowable = new PremiumBookDecorator((BorrowableBook)borrowable, 10);
-            }
-            borrowable.borrowBook(user);
+        BookInterface book = findBook(title);
+        if (book == null) {
+            System.out.println(title + " not found");
+            return;
         }
-    } else {
-        System.out.println(title + " is not a borrowable item.");
+
+        if (book instanceof PremiumBookDecorator) {
+            handlePremiumBorrow((PremiumBookDecorator)book, user);
+            return;
+        }
+
+        BookRequest request = new BookRequest(book, user);
+        approvalChain.handleRequest(request);
+        
+        if (request.isApproved() && book instanceof Borrowable) {
+            ((Borrowable)book).borrowBook(user);
+        }
     }
-}
+
+    private void handlePremiumBorrow(PremiumBookDecorator book, User user) {
+        if (!user.isPremium()) {
+            System.out.println("Premium book requires premium membership");
+            return;
+        }
+        
+        System.out.println("Premium access granted for: " + book.getTitle());
+        book.borrowBook(user);
+    }
 
     public void returnBook(String title) {
         BookInterface book = findBook(title);

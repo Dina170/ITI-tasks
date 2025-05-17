@@ -8,6 +8,8 @@ public class Main {
         Book physicalBook = new PhysicalBook("Lord of the Rings");
         Book historicalBook = new HistoricalBook("Outlander");
         Book ebook = new EBook("Outlander", false);
+        
+        library.addBook("special", BookType.SPECIAL_COLLECTION);
         library.addBook("Design Patterns", BookType.PREMIUM_EBOOK);
 
         library.addBook("Harry Potter", BookType.REGULAR);
@@ -46,5 +48,9 @@ public class Main {
         
         library.accessEBook("Design Patterns", premiumUser);
         library.accessEBook("Design Patterns", regularUser);
+        
+        
+        library.borrowBook("special", regularUser);
+        
     }
 }

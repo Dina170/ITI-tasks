@@ -9,5 +9,6 @@ public enum BookType {
     EBOOK,
     EXTERNAL,
     PREMIUM,
-    PREMIUM_EBOOK
+    PREMIUM_EBOOK,
+    SPECIAL_COLLECTION
 }
