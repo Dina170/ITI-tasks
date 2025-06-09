@@ -70,7 +70,7 @@ export class NewsService {
     },
   ];
 
-  getAll() {
+  getCategories() {
     return this.categories;
   }
 
